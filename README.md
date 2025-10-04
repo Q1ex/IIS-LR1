@@ -17,7 +17,7 @@
    pip install -r "requirements.txt"
 
 
-2. Скачайте датасет heart-disease.pkl и положите его в папку проекта.
+2. Скачайте датасет heart-disease.csv и положите его в папку проекта.
 
 
 3. Запустите Jupyter Notebook:
@@ -29,7 +29,7 @@ jupyter notebook
 
 4. После выполнения ноутбука будут сохранены:
 
-очищенный датасет: heart_clean.csv
+очищенный датасет: heart_clean.pkl
 
 графики: plot1_target_distribution.png, plot2_numeric_histograms.png, plot3_correlation_heatmap.png, plot4_age_boxplot.png, plot5_age_vs_chol.png
 
