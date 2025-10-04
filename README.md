@@ -17,7 +17,7 @@
    pip install -r "requirements.txt"
 
 
-2. Скачайте датасет heart-disease.csv и положите его в папку проекта.
+2. Скачайте датасет heart-disease.pkl и положите его в папку проекта.
 
 
 3. Запустите Jupyter Notebook:
