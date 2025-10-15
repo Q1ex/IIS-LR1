@@ -1,22 +1,12 @@
 #!/bin/bash
+# Скрипт запуска локального MLflow с SQLite-хранилищем
 
-# --- Настройки ---
-TRACKING_SERVER_HOST="127.0.0.1"
-TRACKING_SERVER_PORT=5000
-TRACKING_DB="./mlflow.db"
-ARTIFACT_ROOT="./mlruns"
+# Убедимся, что находимся в директории mlflow
+cd "$(dirname "$0")"
 
-# --- Формируем URI ---
-TRACKING_URI="http://${TRACKING_SERVER_HOST}:${TRACKING_SERVER_PORT}"
-REGISTRY_URI="http://${TRACKING_SERVER_HOST}:${TRACKING_SERVER_PORT}"
-
-# --- Запуск MLflow сервера в фоне ---
-echo "Starting MLflow server..."
+# Запускаем mlflow с указанием БД и папки для логов
 mlflow server \
-    --backend-store-uri sqlite:///$TRACKING_DB \
-    --default-artifact-root $ARTIFACT_ROOT \
-    --host $TRACKING_SERVER_HOST \
-    --port $TRACKING_SERVER_PORT &
-    
-echo "MLflow server started at $TRACKING_URI"
-echo "Open MLflow UI in browser: http://${TRACKING_SERVER_HOST}:${TRACKING_SERVER_PORT}"
+  --backend-store-uri sqlite:///mlruns.db \
+  --default-artifact-root ./artifacts \
+  --host 127.0.0.1 \
+  --port 5000
