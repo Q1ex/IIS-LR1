@@ -2,3 +2,6 @@
 *.pkl
 *.venv*
 eda/4.2.0
+mlflow/artifacts
+mlruns.db
+research/mlruns

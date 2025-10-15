@@ -35,8 +35,18 @@ jupyter notebook
 
 интерактивный график: plot5_age_vs_chol.html
 
+## Запуск MLflow
+MLflow используется для логирования экспериментов и модели.  
+1. Перейти в папку mlflow:
+   cd mlflow
 
----
+2. Запустить скрипт
+   start_mlflow.sh
+
+Сервер MLflow стартует локально на порту 5000.
+Эксперименты и артефакты сохраняются в SQLite базе mlflow/mlruns.db
+
+
 
 Результаты анализа
 
@@ -70,6 +80,28 @@ jupyter notebook
 
 У таких пациентов выше вероятность наличия болезни сердца
 
+
+Результаты исследования
+
+Наилучшее качество показала модель RandomForestClassifier с параметрами:
+   n_estimators=157
+   max_depth=12
+   max_features=0.35281865781747324
+   random_state=42
+
+Получены следующие результаты:
+   f1 - 0.81
+   Precision - 0.74
+   Recall - 0.9
+   Roc_AUC - 0.87
+
+Исследование проводилось на следующих столбцах:
+   num__age, num__trestbps, num__chol, num__thalach, num__oldpeak;
+   poly__age, poly__chol, poly__age^2, poly__age chol, poly__chol^2;
+   kbins__thalach;
+   cat__sex, cat__cp, cat__fbs, cat__restecg, cat__exang, cat__slope, cat__ca, cat__thal;
+
+   Run_id prod модели: 059d7d010bae4dc9afc85cc16f4043c1
 
 
 
