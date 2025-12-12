@@ -105,7 +105,7 @@ MLflow используется для логирования экспериме
    kbins__thalach;
    cat__sex, cat__cp, cat__fbs, cat__restecg, cat__exang, cat__slope, cat__ca, cat__thal;
 
-   Run_id prod модели: 059d7d010bae4dc9afc85cc16f4043c1
+   Run_id prod модели: 9ccf6e5a74574f1aad71e76d7b5d0201
 
 
 
@@ -119,3 +119,76 @@ MLflow используется для логирования экспериме
 Столбцы приведены к корректным типам
 
 Выделены числовые и категориальные признаки
+
+
+
+# ЛР 3 Создание сервиса предсказаний
+
+## Описание сервиса
+
+Папка `services/ml_service` содержит код REST‑сервиса для инференса модели:  
+- `main.py` – FastAPI‑приложение с endpointом `/api/prediction/{item_id}`, описанием входных полей и формированием `pandas.DataFrame` для модели. 
+- `api_handler.py` – обёртка над загруженной моделью (`joblib.load`), выполняющая предсказание по переданным признакам.
+- `requirements.txt` – минимальные зависимости, необходимые только для работы сервиса (FastAPI, Uvicorn, pandas, numpy, scikit‑learn, joblib и др.).
+- `Dockerfile` – рецепт сборки Docker‑образа на базе `python:3.10-slim` и команды для запуска Uvicorn внутри контейнера.
+
+Папка `models` содержит файл обученной модели:  
+- `model.pkl` – сериализованный RandomForest‑классификатор (или pipeline), который используется сервисом для предсказаний.
+
+## Сборка Docker‑образа
+
+Из директории `services/ml_service`:
+
+```bash
+docker build -t heart_ml_service:1.0 .
+```
+
+Здесь `heart_ml_service` – имя образа, `1.0` – первая версия образа согласно заданию.
+
+## Запуск контейнера
+
+Из той же директории:
+
+```bash
+docker run -p 8000:8000 -v "$(pwd)/../models:/models" --name heart_ml_service_container heart_ml_service:1.0
+```
+
+- `-p 8000:8000` – пробрасывает порт `8000` контейнера на порт `8000` хоста (доступ по `http://localhost:8000`).
+- `-v "$(pwd)/../models:/models"` – монтирует локальную папку `../models` в `/models` внутри контейнера, откуда код загружает `model.pkl`.
+
+## Проверка работоспособности
+
+1. Открыть браузер и перейти по адресу:  
+   `http://localhost:8000/docs` – автоматически сгенерированная Swagger‑документация FastAPI.
+2. Найти метод `POST /api/prediction/{item_id}`, нажать **Try it out**, указать `item_id` (например, `"1"`).  
+3. Вставить пример тела запроса:
+
+```json
+{
+  "age": 62,
+  "sex": 1,
+  "cp": 0,
+  "trestbps": 140,
+  "chol": 280,
+  "fbs": 0,
+  "restecg": 0,
+  "thalach": 115,
+  "exang": 1,
+  "oldpeak": 1.5,
+  "slope": 1,
+  "ca": 3,
+  "thal": 2,
+  "high_age": 1
+}
+```
+
+4. Нажать **Execute** и убедиться, что сервис возвращает JSON с полями `item_id` и `predict` (классификация по обученной модели).
+
+   Пример полученного ответа:
+   ```json
+   {
+     "item_id": "1",
+     "predict": 0
+   }
+   ```
+

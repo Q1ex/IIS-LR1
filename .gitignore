@@ -5,3 +5,9 @@ eda/4.2.0
 mlflow/artifacts
 mlruns.db
 research/mlruns
+__pycache__/
+*/__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd

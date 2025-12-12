@@ -1,0 +1,12 @@
+fastapi==0.124.2
+uvicorn[standard]==0.30.6
+pandas==2.3.2
+sklearn==0.0
+numpy==1.26.4
+scikit-learn==1.7.2
+joblib==1.4.2
+pickle4==0.0.1
+prometheus_client==0.22.1
+requests==2.32.5
+category_encoders
+cloudpickle==3.1.1
